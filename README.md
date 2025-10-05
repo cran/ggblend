@@ -5,10 +5,12 @@
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-![CRAN status](https://www.r-pkg.org/badges/version/ggblend) [![Codecov
-test
+[![CRAN
+status](https://www.r-pkg.org/badges/version/ggblend)](https://CRAN.R-project.org/package=ggblend)
+[![Codecov test
 coverage](https://codecov.io/gh/mjskay/ggblend/branch/main/graph/badge.svg)](https://app.codecov.io/gh/mjskay/ggblend?branch=main)
 [![R-CMD-check](https://github.com/mjskay/ggblend/workflows/R-CMD-check/badge.svg)](https://github.com/mjskay/ggblend/actions)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7963886.svg)](https://doi.org/10.5281/zenodo.7963886)
 <!-- badges: end -->
 
 *ggblend* is a small algebra of operations for blending, copying,
@@ -23,16 +25,16 @@ added in that version of R.
 
 ## Installation
 
+You can install *ggblend* from CRAN as follows:
+
+``` r
+install.packages("ggblend")
+```
+
 You can install the development version of *ggblend* using:
 
 ``` r
 remotes::install_github("mjskay/ggblend")
-```
-
-If/when *ggblend* is on CRAN, install it using:
-
-``` r
-install.packages("ggblend")
 ```
 
 ## Blending within one geometry
@@ -497,24 +499,33 @@ documentation](https://gganimate.com/):
 library(gganimate)
 library(gapminder)
 
-p = ggplot(gapminder, aes(gdpPercap, lifeExp, size = pop, color = continent, partition = continent)) +
+p = gapminder |>
+  ggplot(aes(gdpPercap, lifeExp, size = pop, color = continent)) +
   list(
-    geom_point(show.legend = c(size = FALSE)) |> blend("multiply"),
-    geom_hline(yintercept = 70, linewidth = 2.5, color = "gray75")
+    geom_point(show.legend = c(size = FALSE)) |> partition(vars(continent)) |> blend("multiply"),
+    geom_hline(yintercept = 70, linewidth = 1.5, color = "gray75")
   ) |> blend("hard.light") +
-  scale_color_manual(values = continent_colors) +
+  scale_color_manual(
+    # same as colorspace::lighten(continent_colors, 0.35)
+    values = c(
+      Africa = "#BE7658", Americas = "#E95866", Asia = "#7C5C86", 
+      Europe = "#659C5D", Oceania = "#7477CA"
+    ),
+    guide = guide_legend(override.aes = list(size = 4))
+  ) +
   scale_size(range = c(2, 12)) +
-  scale_x_log10() +
+  scale_x_log10(labels = scales::label_dollar(scale_cut = scales::cut_short_scale())) +
+  scale_y_continuous(breaks = seq(20, 80, by = 10)) +
   labs(
     title = 'Gapminder with gganimate and ggblend', 
     subtitle = 'Year: {frame_time}', 
     x = 'GDP per capita', 
-    y = 'life expectancy'
-  ) +
+    y = 'Life expectancy'
+  )  +
   transition_time(year) +
   ease_aes('linear')
 
-animate(p, type = "cairo")
+animate(p, type = "cairo", width = 600, height = 400, res = 100)
 ```
 
 ![](man/figures/README-gapminder-1.gif)<!-- -->

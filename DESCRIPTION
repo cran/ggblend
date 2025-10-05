@@ -1,6 +1,7 @@
 Package: ggblend
 Title: Blending and Compositing Algebra for 'ggplot2'
-Version: 0.1.0
+Version: 0.1.2
+Date: 2025-10-03
 Authors@R: 
     person("Matthew", "Kay", , "mjskay@northwestern.edu", role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0000-0001-9446-0419"))
@@ -18,16 +19,17 @@ Language: en-US
 Depends: R (>= 4.2)
 Imports: methods, grid, ggplot2 (>= 3.4.0), rlang
 Suggests: covr, testthat (>= 3.0.0), fontquiver, showtext, sysfonts,
-        ggnewscale
+        ggnewscale, scales
 Config/testthat/edition: 3
-BugReports: https://github.com/mjskay/ggblend/issues/new
+BugReports: https://github.com/mjskay/ggblend/issues
 URL: https://mjskay.github.io/ggblend/,
-        https://github.com/mjskay/ggblend/
+        https://github.com/mjskay/ggblend
 Encoding: UTF-8
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.3
 NeedsCompilation: no
-Packaged: 2023-05-21 04:21:44 UTC; matth
-Author: Matthew Kay [aut, cre, cph] (<https://orcid.org/0000-0001-9446-0419>)
+Packaged: 2025-10-04 17:42:10 UTC; matth
+Author: Matthew Kay [aut, cre, cph] (ORCID:
+    <https://orcid.org/0000-0001-9446-0419>)
 Maintainer: Matthew Kay <mjskay@northwestern.edu>
 Repository: CRAN
-Date/Publication: 2023-05-22 08:30:05 UTC
+Date/Publication: 2025-10-05 05:10:10 UTC
